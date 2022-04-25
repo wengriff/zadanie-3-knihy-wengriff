@@ -29,7 +29,7 @@ public class BookService implements IBookService {
 
     @Override
     public Book getById(long id) throws NotFoundException {
-        Book book = this.repository.getBookById(id);
+        Book book = this.repository.findBookById(id);
 
         if(book == null) {
             throw new NotFoundException();
@@ -54,7 +54,7 @@ public class BookService implements IBookService {
             book.setDescription(request.getDescription());
         }
 
-        if(request.getAuthor() != null) {
+        if(request.getAuthor() != 0) {
             book.setAuthor(request.getAuthor());
         }
 
@@ -67,7 +67,29 @@ public class BookService implements IBookService {
 
     @Override
     public void delete(long id) throws NotFoundException {
-        Book book = this.repository.findById(id).orElseThrow(() -> new NotFoundException());
-        this.repository.delete(book);
+        this.repository.delete(this.getById(id));
+    }
+
+    @Override
+    public int getAmount(long id) throws NotFoundException {
+        Book book = this.getById(id);
+
+        if(book == null) {
+            throw new NotFoundException();
+        }
+
+        return book.getAmount();
+    }
+
+    @Override
+    public void addAmount(long id, int amount) throws NotFoundException {
+        Book book = this.getById(id);
+
+        if(book == null) {
+            throw new NotFoundException();
+        }
+
+        book.setAmount(book.getAmount() + amount);
+        this.repository.save(book);
     }
 }

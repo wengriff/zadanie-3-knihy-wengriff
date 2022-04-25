@@ -7,14 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import sk.stuba.fei.uim.oop.assignment3.Author.Service.IAuthorService;
 import sk.stuba.fei.uim.oop.assignment3.Author.Web.bodies.AuthorRequest;
@@ -35,8 +28,8 @@ public class AuthorController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthorResponse> addAuthor(@RequestBody AuthorRequest request) {
-        return new ResponseEntity<>(new AuthorResponse(this.service.create(request)), HttpStatus.CREATED); 
+    public ResponseEntity<AuthorResponse> addAuthor(@RequestBody AuthorRequest body) {
+        return new ResponseEntity<>(new AuthorResponse(this.service.create(body)), HttpStatus.CREATED); 
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -45,8 +38,8 @@ public class AuthorController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public AuthorResponse updateAuthor(@PathVariable("id") Long authorId, @RequestBody AuthorUpdateRequest request) throws NotFoundException {
-        return new AuthorResponse(this.service.update(authorId, request));
+    public AuthorResponse updateAuthor(@PathVariable("id") Long authorId, @RequestBody AuthorUpdateRequest body) throws NotFoundException {
+        return new AuthorResponse(this.service.update(authorId, body));
     }
 
     @DeleteMapping(value = "/{id}")

@@ -23,25 +23,22 @@ public class AuthorService implements IAuthorService {
     }
 
     @Override
-    public Author create(AuthorRequest request) {
-        return this.repository.save(new Author(request));
+    public Author create(AuthorRequest body) {
+        return this.repository.save(new Author(body));
     }
 
     @Override
     public Author getById(long id) throws NotFoundException {
-        Author author = this.repository.getAuthorById(id);
-
+        Author author = this.repository.findAuthorById(id);
         if(author == null) {
             throw new NotFoundException();
         }
-
         return author;
     }
 
     @Override
     public Author update(long id, AuthorUpdateRequest request) throws NotFoundException {
         Author author = this.getById(id);
-
         if(author == null) {
             throw new NotFoundException();
         }
@@ -59,7 +56,7 @@ public class AuthorService implements IAuthorService {
 
     @Override
     public void delete(long id) throws NotFoundException {
-        Author author = this.repository.findById(id).orElseThrow(() -> new NotFoundException());
+        Author author = this.getById(id);
         this.repository.delete(author);
     }
 }

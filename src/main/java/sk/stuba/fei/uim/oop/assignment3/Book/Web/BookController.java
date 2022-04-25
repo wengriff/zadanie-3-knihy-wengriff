@@ -7,16 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import sk.stuba.fei.uim.oop.assignment3.Book.Service.IBookService;
+import sk.stuba.fei.uim.oop.assignment3.Book.Web.bodies.BookAmount;
 import sk.stuba.fei.uim.oop.assignment3.Book.Web.bodies.BookRequest;
 import sk.stuba.fei.uim.oop.assignment3.Book.Web.bodies.BookResponse;
 import sk.stuba.fei.uim.oop.assignment3.Book.Web.bodies.BookUpdateRequest;
@@ -52,5 +46,15 @@ public class BookController {
     @DeleteMapping(value = "/{id}")
     public void deleteBook(@PathVariable("id") Long bookId) throws NotFoundException {
         this.service.delete(bookId);
+    }
+
+    @GetMapping(value = "/{id}/amount", produces = MediaType.APPLICATION_JSON_VALUE)
+    public BookAmount getBookAmount(@PathVariable("id") Long bookId) throws NotFoundException {
+        return new BookAmount(this.service.getAmount(bookId));
+    }
+
+    @PostMapping(value = "/{id}/amount", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void addBookAmount(@PathVariable("id") Long bookId, @RequestBody BookAmount body) throws NotFoundException {
+        this.service.addAmount(bookId, body.getAmount());
     }
 }

@@ -15,7 +15,7 @@ public interface IAuthorService {
 
     Author getById(long id) throws NotFoundException;
 
-    Author update(long id, AuthorUpdateRequest body) throws NotFoundException;
+    Author update(long id, AuthorUpdateRequest request) throws NotFoundException;
 
     void delete(long id) throws NotFoundException;
 

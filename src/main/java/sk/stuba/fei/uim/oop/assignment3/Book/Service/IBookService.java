@@ -18,5 +18,9 @@ public interface IBookService {
     Book update(long id, BookUpdateRequest request) throws NotFoundException;
 
     void delete(long id) throws NotFoundException;
+
+    int getAmount(long id) throws NotFoundException;
+
+    void addAmount(long id, int amount) throws NotFoundException;
     
 }

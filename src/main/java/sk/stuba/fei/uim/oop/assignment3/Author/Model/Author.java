@@ -27,7 +27,7 @@ public class Author {
 
     private String surname;
 
-    @OneToMany(orphanRemoval = true)
+    @OneToMany
     private List<Book> books;
 
     public Author(AuthorRequest request) {
