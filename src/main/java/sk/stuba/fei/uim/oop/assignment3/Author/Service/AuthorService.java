@@ -9,6 +9,8 @@ import sk.stuba.fei.uim.oop.assignment3.Author.Model.Author;
 import sk.stuba.fei.uim.oop.assignment3.Author.Model.AuthorRepository;
 import sk.stuba.fei.uim.oop.assignment3.Author.Web.bodies.AuthorRequest;
 import sk.stuba.fei.uim.oop.assignment3.Author.Web.bodies.AuthorUpdateRequest;
+import sk.stuba.fei.uim.oop.assignment3.Book.Model.Book;
+import sk.stuba.fei.uim.oop.assignment3.Book.Service.IBookService;
 import sk.stuba.fei.uim.oop.assignment3.Exception.NotFoundException;
 
 @Service
@@ -16,6 +18,9 @@ public class AuthorService implements IAuthorService {
 
     @Autowired
     private AuthorRepository repository;
+
+    @Autowired
+    private IBookService bookService;
     
     @Override
     public List<Author> getAll() {
@@ -28,7 +33,7 @@ public class AuthorService implements IAuthorService {
     }
 
     @Override
-    public Author getById(long id) throws NotFoundException {
+    public Author getById(Long id) throws NotFoundException {
         Author author = this.repository.findAuthorById(id);
         if(author == null) {
             throw new NotFoundException();
@@ -37,7 +42,7 @@ public class AuthorService implements IAuthorService {
     }
 
     @Override
-    public Author update(long id, AuthorUpdateRequest request) throws NotFoundException {
+    public Author update(Long id, AuthorUpdateRequest request) throws NotFoundException {
         Author author = this.getById(id);
         if(author == null) {
             throw new NotFoundException();
@@ -55,8 +60,13 @@ public class AuthorService implements IAuthorService {
     }
 
     @Override
-    public void delete(long id) throws NotFoundException {
+    public void delete(Long id) throws NotFoundException {
         Author author = this.getById(id);
+        for(Book book : this.bookService.getAll()) {
+            if(book.getAuthor() == author) {
+                this.bookService.delete(book.getId());
+            }
+        }
         this.repository.delete(author);
     }
 }

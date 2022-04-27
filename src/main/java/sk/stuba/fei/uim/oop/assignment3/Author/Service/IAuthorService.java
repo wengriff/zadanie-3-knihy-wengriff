@@ -13,10 +13,10 @@ public interface IAuthorService {
 
     Author create(AuthorRequest body);
 
-    Author getById(long id) throws NotFoundException;
+    Author getById(Long id) throws NotFoundException;
 
-    Author update(long id, AuthorUpdateRequest request) throws NotFoundException;
+    Author update(Long id, AuthorUpdateRequest request) throws NotFoundException;
 
-    void delete(long id) throws NotFoundException;
+    void delete(Long id) throws NotFoundException;
 
 }

@@ -4,14 +4,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import sk.stuba.fei.uim.oop.assignment3.Author.Model.Author;
 import sk.stuba.fei.uim.oop.assignment3.Book.Web.bodies.BookRequest;
 
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Book {
     
     @Id
@@ -22,7 +26,8 @@ public class Book {
 
     private String description;
 
-    private Long author;
+    @ManyToOne
+    private Author author;
 
     private int pages;
 
@@ -30,10 +35,10 @@ public class Book {
 
     private int lendCount;
 
-    public Book(BookRequest request) {
+    public Book(BookRequest request, Author author) {
         this.name = request.getName();
         this.description = request.getDescription();
-        this.author = request.getAuthor();
+        this.author = author;
         this.pages = request.getPages();
         this.amount = request.getAmount();
         this.lendCount = request.getLendCount();

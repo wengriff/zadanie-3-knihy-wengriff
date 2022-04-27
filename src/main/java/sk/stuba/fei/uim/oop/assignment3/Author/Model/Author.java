@@ -33,6 +33,6 @@ public class Author {
     public Author(AuthorRequest request) {
         this.name = request.getName();
         this.surname = request.getSurname();
-        this.books = request.getBooks();
+        this.books = new ArrayList<>();
     }
 }

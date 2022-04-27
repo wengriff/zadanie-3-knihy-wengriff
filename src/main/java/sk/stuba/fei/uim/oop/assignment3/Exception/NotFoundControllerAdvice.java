@@ -7,7 +7,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class NotFoundControllerAdvice {
-    @ExceptionHandler(value = NotFoundException.class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public void handleException() {}
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public void handleNotFoundException() {}
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalOperationException.class)
+    public void handleIllegalOperationException() {}
 }

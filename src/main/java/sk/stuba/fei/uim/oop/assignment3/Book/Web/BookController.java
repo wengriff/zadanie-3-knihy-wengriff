@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.*;
 
 import sk.stuba.fei.uim.oop.assignment3.Book.Service.IBookService;
 import sk.stuba.fei.uim.oop.assignment3.Book.Web.bodies.BookAmount;
+import sk.stuba.fei.uim.oop.assignment3.Book.Web.bodies.BookLendCount;
 import sk.stuba.fei.uim.oop.assignment3.Book.Web.bodies.BookRequest;
 import sk.stuba.fei.uim.oop.assignment3.Book.Web.bodies.BookResponse;
 import sk.stuba.fei.uim.oop.assignment3.Book.Web.bodies.BookUpdateRequest;
+import sk.stuba.fei.uim.oop.assignment3.Exception.IllegalOperationException;
 import sk.stuba.fei.uim.oop.assignment3.Exception.NotFoundException;
 
 @RestController
@@ -29,7 +31,7 @@ public class BookController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BookResponse> addBook(@RequestBody BookRequest request) {
+    public ResponseEntity<BookResponse> addBook(@RequestBody BookRequest request) throws IllegalOperationException, NotFoundException {
         return new ResponseEntity<>(new BookResponse(this.service.create(request)), HttpStatus.CREATED); 
     }
 
@@ -54,7 +56,12 @@ public class BookController {
     }
 
     @PostMapping(value = "/{id}/amount", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void addBookAmount(@PathVariable("id") Long bookId, @RequestBody BookAmount body) throws NotFoundException {
-        this.service.addAmount(bookId, body.getAmount());
+    public BookAmount addBookAmount(@PathVariable("id") Long bookId, @RequestBody BookAmount body) throws NotFoundException {
+        return new BookAmount(this.service.addAmount(bookId, body.getAmount()));
+    }
+
+    @GetMapping(value = "/{id}/lendCount", produces = MediaType.APPLICATION_JSON_VALUE)
+    public BookLendCount getBookLendCount(@PathVariable("id") Long bookId) throws NotFoundException {
+        return new BookLendCount(this.service.getLendCount(bookId));
     }
 }

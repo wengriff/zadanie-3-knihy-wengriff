@@ -6,6 +6,6 @@ import lombok.Data;
 public class BookUpdateRequest {
     private String name;
     private String description;
-    private long author;
+    private Long author;
     private int pages;
 }
