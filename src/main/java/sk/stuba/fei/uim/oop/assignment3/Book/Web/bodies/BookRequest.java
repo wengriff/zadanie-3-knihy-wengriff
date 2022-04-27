@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class BookRequest {
     private String name;
-    private Long author;
     private String description;
+    private Long author;
     private int pages;
     private int amount;
     private int lendCount;

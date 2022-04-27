@@ -35,6 +35,7 @@ public class BookService implements IBookService {
         if(author == null) {
             throw new IllegalOperationException();
         }
+        author.getBooks().add(book);
         return this.repository.save(book);
     }
 
@@ -50,19 +51,15 @@ public class BookService implements IBookService {
     @Override
     public Book update(Long id, BookUpdateRequest request) throws NotFoundException {
         Book book = this.getById(id);
-
         if(request.getName() != null) {
             book.setName(request.getName());
         }
-
         if(request.getDescription() != null) {
             book.setDescription(request.getDescription());
         }
-
-        if(request.getAuthor() != null) {
+        if(request.getAuthor() != 0) {
             book.setAuthor(this.authorService.getById(request.getAuthor()));
         }
-
         if(request.getPages() != 0) {
             book.setPages(request.getPages());
         }
