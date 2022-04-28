@@ -1,9 +1,11 @@
 package sk.stuba.fei.uim.oop.assignment3.Book.Web.bodies;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import sk.stuba.fei.uim.oop.assignment3.Book.Model.Book;
 
 @Data
+@NoArgsConstructor
 public class BookResponse {
     private Long id;
     private String name;

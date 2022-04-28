@@ -8,7 +8,6 @@ import sk.stuba.fei.uim.oop.assignment3.Author.Web.bodies.AuthorUpdateRequest;
 import sk.stuba.fei.uim.oop.assignment3.Exception.NotFoundException;
 
 public interface IAuthorService {
-
     List<Author> getAll();
 
     Author create(AuthorRequest body);

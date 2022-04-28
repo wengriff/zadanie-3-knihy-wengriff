@@ -31,10 +31,10 @@ public class BookService implements IBookService {
     @Override
     public Book create(BookRequest request) throws IllegalOperationException, NotFoundException {
         Author author = this.authorService.getById(request.getAuthor());
-        Book book = new Book(request, author);
         if(author == null) {
             throw new IllegalOperationException();
         }
+        Book book = new Book(request, author);
         author.getBooks().add(book);
         return this.repository.save(book);
     }
@@ -43,7 +43,7 @@ public class BookService implements IBookService {
     public Book getById(Long id) throws NotFoundException {
         Book book = this.repository.findBookById(id);
         if(book == null) {
-            throw new NotFoundException();
+            // throw new NotFoundException();
         }
         return book;
     }

@@ -9,7 +9,6 @@ import sk.stuba.fei.uim.oop.assignment3.Exception.IllegalOperationException;
 import sk.stuba.fei.uim.oop.assignment3.Exception.NotFoundException;
 
 public interface IBookService {
-
     List<Book> getAll();
 
     Book create(BookRequest request) throws IllegalOperationException, NotFoundException;
