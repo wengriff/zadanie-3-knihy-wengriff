@@ -44,6 +44,16 @@ public class LendingListController {
 
     @PostMapping(value = "/{id}/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public LendingListResponse addBookToLendingList(@PathVariable("id") Long lendingListId, @RequestBody BookIdRequest body) throws IllegalOperationException, NotFoundException {
-        return new LendingListResponse(this.service.addBookToLendingList(body, lendingListId));
+        return new LendingListResponse(this.service.addBookToLendingList(lendingListId, body));
+    }
+
+    @DeleteMapping(value = "/{id}/remove", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public LendingListResponse removeBookFromLendingList(@PathVariable("id") Long lendingListId, @RequestBody BookIdRequest body) throws IllegalOperationException, NotFoundException {
+        return new LendingListResponse(this.service.removeBookFromLendingList(lendingListId, body));
+    }
+
+    @GetMapping(value = "/{id}/lend", produces = MediaType.TEXT_PLAIN_VALUE)
+    public void lendList(@PathVariable("id") Long lendingListId) throws IllegalOperationException, NotFoundException {
+        this.service.lendList(lendingListId);
     }
 }

@@ -43,7 +43,7 @@ public class BookService implements IBookService {
     public Book getById(Long id) throws NotFoundException {
         Book book = this.repository.findBookById(id);
         if(book == null) {
-            // throw new NotFoundException();
+            throw new NotFoundException();
         }
         return book;
     }

@@ -18,7 +18,7 @@ public class LendingListResponse {
         this.id = lendingList.getId();
         this.lendingList = new ArrayList<>();
         if(lendingList.getList() != null) {
-            this.lendingList = lendingList.getList().stream().map(BookResponse::new).collect(Collectors.toList());
+            this.lendingList = lendingList.getList().stream().map(book -> new BookResponse(book)).collect(Collectors.toList());
         }
         this.lended = lendingList.isLended();
     }

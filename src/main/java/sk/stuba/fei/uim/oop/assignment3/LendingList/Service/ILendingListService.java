@@ -16,5 +16,9 @@ public interface ILendingListService {
 
     void delete(Long id) throws NotFoundException;
 
-    LendingList addBookToLendingList(BookIdRequest body, Long id) throws NotFoundException;
+    LendingList addBookToLendingList(Long id, BookIdRequest body) throws NotFoundException, IllegalOperationException;
+
+    LendingList removeBookFromLendingList(Long id, BookIdRequest body) throws NotFoundException, IllegalOperationException;
+
+    void lendList(Long id) throws NotFoundException, IllegalOperationException;
 }

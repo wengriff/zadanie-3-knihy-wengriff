@@ -49,13 +49,40 @@ public class LendingListService implements ILendingListService {
     }
 
     @Override
-    public LendingList addBookToLendingList(BookIdRequest body, Long id) throws NotFoundException {
+    public LendingList addBookToLendingList(Long id, BookIdRequest body) throws NotFoundException, IllegalOperationException {
         LendingList lendingList = this.getById(id);
-        Book book = this.bookService.getById(body.getBookId());
         if(lendingList == null) {
             throw new NotFoundException();
         }
+        Book book = this.bookService.getById(body.getId());
+        if(lendingList.getList().contains(book) || lendingList.isLended()) {
+            throw new IllegalOperationException();
+        }
         lendingList.getList().add(book);
         return this.repository.save(lendingList);
+    }
+
+    @Override
+    public LendingList removeBookFromLendingList(Long id, BookIdRequest body) throws NotFoundException, IllegalOperationException {
+        LendingList lendingList = this.getById(id);
+        Book book = this.bookService.getById(body.getId());
+        if(!lendingList.getList().contains(book)) {
+            throw new IllegalOperationException();
+        }
+        lendingList.getList().remove(book);
+        return this.repository.save(lendingList);
+    }
+
+    @Override
+    public void lendList(Long id) throws NotFoundException, IllegalOperationException {
+        LendingList lendingList = this.getById(id);
+        if(lendingList.isLended()) {
+            throw new IllegalOperationException();
+        }
+        lendingList.setLended(true);
+        for(Book book : lendingList.getList()) {
+            book.setLendCount(book.getLendCount() + 1);
+        }
+        this.repository.save(lendingList);
     }
 }
